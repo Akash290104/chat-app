@@ -73,7 +73,7 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
         };
 
         const response = await axios.get(
-          `http://localhost:5000/api/user?search=${search}`,
+          `https://chat-app-3-jpcn.onrender.com/api/user?search=${search}`,
           config
         );
 
@@ -98,7 +98,7 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
         },
       };
       const response = await axios.get(
-        "http://localhost:5000/api/chat",
+        "https://chat-app-3-jpcn.onrender.com/api/chat",
         config
       );
 
@@ -123,7 +123,7 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
       };
 
       const response = await axios.post(
-        `http://localhost:5000/api/chat`,
+        `https://chat-app-3-jpcn.onrender.com/api/chat`,
         { userId },
         config
       );
