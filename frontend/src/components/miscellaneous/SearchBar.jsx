@@ -48,13 +48,12 @@ export const User = ({ user, handleFunction }) => {
 
 const SearchBar = ({ isVisible, setIsVisible }) => {
   const searchElement = useRef(null);
-  const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
   const [noUsers, setNoUsers] = useState(false);
 
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const { user,  chats, setChats } = ChatState();
 
   const handleSearch = useCallback(
     debounce(async (search) => {
@@ -160,7 +159,6 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
 
   const vacantSearch = () => {
     searchElement.current.value = "";
-    setSearch("");
     setSearchResult([]);
     setNoUsers(false);
   };
@@ -168,7 +166,6 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
   const handleInputChange = useCallback(
     (e) => {
       const value = e.target.value;
-      setSearch(value);
       handleSearch(value); // Call the debounced search function
     },
     [handleSearch] // Dependency for handleInputChange

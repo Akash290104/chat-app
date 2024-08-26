@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip, Dropdown } from "react-bootstrap";
-import { FaBell, FaUserCircle } from "react-icons/fa";
+import React, { useState } from "react";
+import { Dropdown } from "react-bootstrap";
+import { FaBell } from "react-icons/fa";
 import { ChatState } from "../context/chatProvider.js";
 import "../styling/SideDrawer.css";
 import Profilemodal from "./miscellaneous/profilemodal";
@@ -11,7 +11,7 @@ import GetSender from "../config/GetSender.js";
 
 const SideDrawer = () => {
   const navigate = useNavigate();
-  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+  const { user, setSelectedChat, notification, setNotification } =
     ChatState();
 
   let pic = "";

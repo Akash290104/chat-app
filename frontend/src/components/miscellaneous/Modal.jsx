@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "../../styling/Modal.module.scss";
-import { ChatState } from "../../context/chatProvider";
 
 const Modal = ({ handleClose, user }) => {
   console.log("Modal user is ", user);
