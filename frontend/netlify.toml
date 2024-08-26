@@ -1,11 +1,7 @@
 [build]
   base = "frontend"
   command = "npm run build"
-<<<<<<< HEAD
   publish = "frontend/build"
-=======
-  publish = "build"
->>>>>>> f82678c1d57cdb1a0c2bbac48ad8ad47635a2026
   environment = { NODE_VERSION = "20.15.1", NODE_ENV = "production" }
 
 [[redirects]]
