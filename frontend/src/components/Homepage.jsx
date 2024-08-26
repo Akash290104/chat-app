@@ -9,7 +9,6 @@ const Homepage = () => {
   const [activeTab, setActiveTab] = useState("");
 
   const navigate = useNavigate()
-  const [user, setUser] = useState()
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"))
 

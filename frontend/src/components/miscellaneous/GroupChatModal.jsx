@@ -11,7 +11,6 @@ import UserBadge from "./UserBadge";
 const GroupChatModal = ({ children, hideGroupChatModal }) => {
   const [groupChatName, setGroupChatName] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [search, setSearch] = useState();
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [noUsers, setNoUsers] = useState(false);
@@ -97,7 +96,6 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
   const handleInputChange = useCallback(
     (e) => {
       const value = e.target.value;
-      setSearch(value);
       handleSearch(value); // Call the debounced search function
     },
     [handleSearch] // Dependency for handleInputChange

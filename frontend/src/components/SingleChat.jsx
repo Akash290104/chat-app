@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ChatState } from "../context/chatProvider";
 import styles from "../styling/SingleChat.module.scss";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
@@ -47,7 +47,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     setOpenUpdateModal(false);
   };
 
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback( async () => {
     if (!selectedChat) {
       return;
     }
@@ -86,12 +86,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         alert("Error fetching messages");
       }
     }
-  };
+  }, [selectedChat, user.data.token])
 
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
-  }, [selectedChat]);
+  // }, [selectedChat]);
+  }, [selectedChat, fetchMessages]);
 
   console.log("Notification ", notification);
   console.log(JSON.parse(localStorage.getItem("notifications")));
@@ -102,7 +103,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+  // }, []);
+  }, [user]);
 
   //Below logic ensures that users don't receive and see messages from a different chat while they're focused on a specific chat. It helps in managing the UI updates based on the selected chat.
 
@@ -255,7 +257,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     return () => {
       socket.off("message received");
     };
-  }, []);
+  // }, []);
+  }, [fetchAgain, setFetchAgain, notification, setNotification]);
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -330,7 +333,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         removeNotification(selectedChat, prevNotification)
       );
     }
-  }, [selectedChat]);
+  }, [selectedChat, setNotification]);
 
   return (
     <div className={styles.container}>
