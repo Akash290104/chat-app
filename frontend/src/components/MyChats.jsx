@@ -5,7 +5,7 @@ import styles from "../styling/MyChats.module.scss";
 import GetSender from "../config/GetSender";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 
-const MyChats = ({fetchAgain}) => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
@@ -29,8 +29,6 @@ const MyChats = ({fetchAgain}) => {
   //   };
   // }, []);
 
-  
-
   const ChatSender = ({ name, chat }) => {
     return (
       <div
@@ -45,7 +43,6 @@ const MyChats = ({fetchAgain}) => {
   };
 
   useEffect(() => {
-    
     const fetchChats = async () => {
       try {
         const config = {
@@ -54,17 +51,16 @@ const MyChats = ({fetchAgain}) => {
           },
         };
         const response = await axios.get(
-          "http://localhost:5000/api/chat",
+          "https://chat-app-3-jpcn.onrender.com/api/chat",
           config
         );
-  
+
         setChats(response.data.result);
         console.log("Chats of MyChats component are", chats);
       } catch (error) {
         console.log("Error fetching the chats of the logged in user", error);
       }
     };
-
 
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
@@ -78,7 +74,7 @@ const MyChats = ({fetchAgain}) => {
 
   const hideGroupChatModal = () => {
     setGroupChatModal(false);
-  }
+  };
 
   return (
     <div className={styles.container}>

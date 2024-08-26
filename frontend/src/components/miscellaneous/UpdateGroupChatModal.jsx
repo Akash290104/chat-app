@@ -40,7 +40,7 @@ const UpdateGroupChatModal = ({
   hideUpdateModal,
   fetchAgain,
   setFetchAgain,
-  fetchMessages
+  fetchMessages,
 }) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
 
@@ -51,8 +51,6 @@ const UpdateGroupChatModal = ({
   const [renameLoading, setRenameLoading] = useState(false);
   const [noUsers, setNoUsers] = useState(false);
   const [showUserBadge, setShowUserBadge] = useState(false);
-
- 
 
   const closeFunction = () => {
     setShowUserBadge(false);
@@ -74,7 +72,7 @@ const UpdateGroupChatModal = ({
         };
 
         const response = await axios.get(
-          `http://localhost:5000/api/user?search=${search}`,
+          `https://chat-app-3-jpcn.onrender.com/api/user?search=${search}`,
           config
         );
 
@@ -110,7 +108,7 @@ const UpdateGroupChatModal = ({
       };
 
       const response = await axios.put(
-        "http://localhost:5000/api/chat/addtogroup",
+        "https://chat-app-3-jpcn.onrender.com/api/chat/addtogroup",
         { chatId: selectedChat._id, userId: selectedUser._id },
         config
       );
@@ -143,7 +141,7 @@ const UpdateGroupChatModal = ({
       };
 
       const response = await axios.put(
-        "http://localhost:5000/api/chat/removefromgroup",
+        "https://chat-app-3-jpcn.onrender.com/api/chat/removefromgroup",
         { chatId: selectedChat._id, userId: selectedUser._id },
         config
       );
@@ -153,14 +151,14 @@ const UpdateGroupChatModal = ({
         setSelectedChat();
         setFetchAgain(!fetchAgain);
         setLoading(false);
-        fetchMessages()
+        fetchMessages();
         hideUpdateModal();
       } else {
         setSelectedChat(response.data.removed);
         alert("User removed from the group");
         setFetchAgain(!fetchAgain);
         setLoading(false);
-        fetchMessages()
+        fetchMessages();
       }
     } catch (error) {
       alert("Error removing the selected user from the group");
@@ -184,7 +182,7 @@ const UpdateGroupChatModal = ({
       };
 
       const response = await axios.put(
-        "http://localhost:5000/api/chat/rename",
+        "https://chat-app-3-jpcn.onrender.com/api/chat/rename",
         { id: selectedChat._id, name: groupchatName },
         config
       );

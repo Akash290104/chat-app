@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +28,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user/login",
+        "https://chat-app-3-jpcn.onrender.com/api/user/login",
         { email, password }
       );
 

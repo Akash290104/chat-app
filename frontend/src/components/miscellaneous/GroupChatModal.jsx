@@ -46,7 +46,7 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
   //     };
 
   //     const response = await axios.get(
-  //       `http://localhost:5000/api/user?search=${query}`,
+  //       `https://chat-app-3-jpcn.onrender.com/api/user?search=${query}`,
   //       config
   //     );
 
@@ -79,7 +79,7 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user?search=${query}`,
+          `https://chat-app-3-jpcn.onrender.com/api/user?search=${query}`,
           config
         );
         setLoading(false);
@@ -107,17 +107,15 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
     console.log("User removed from selected users");
     setSelectedUsers(selectedUsers.filter((a) => a._id !== user._id));
     console.log(selectedUsers);
-    
   };
 
   const handleSubmit = async (e) => {
-  
     if (!groupChatName) {
       alert("Enter Group chat name");
       return;
     }
-    
-    if (selectedUsers.length===0) {
+
+    if (selectedUsers.length === 0) {
       alert("Select users for group chat");
       return;
     }
@@ -129,7 +127,7 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/chat/group",
+        "https://chat-app-3-jpcn.onrender.com/api/chat/group",
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
@@ -139,14 +137,18 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
 
       console.log(response);
       setChats([response.data.fullGroupChat, ...chats]);
-      alert("Group chat created successfully")
-      hideGroupChatModal()
+      alert("Group chat created successfully");
+      hideGroupChatModal();
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         alert(`Error: ${error.response.data.message}`);
-      }else{
-      alert("Error submitting details of group chat")
-      console.log(error)
+      } else {
+        alert("Error submitting details of group chat");
+        console.log(error);
       }
     }
   };
@@ -209,9 +211,13 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
           )}
         </div>
         <div className={styles.createChat}>
-          <button onClick={() => {
-            handleSubmit()
-          }}>Create Chat</button>
+          <button
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
+            Create Chat
+          </button>
         </div>
       </div>
     </div>
