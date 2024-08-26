@@ -1,8 +1,7 @@
 import asyncHandler from "express-async-handler"
 import User from "../models/userModel.js"
 import generateToken from "../data/token.js"
-import bcrypt from "bcrypt"
-
+import bcrypt from "bcryptjs";
 const DEFAULT_PIC = "https://res.cloudinary.com/deylzmzlz/image/upload/v1722320572/chatApp/mouqco9p9gbclbqtoeia.png" 
 
 const registerUser = asyncHandler(async(req, res) => {
