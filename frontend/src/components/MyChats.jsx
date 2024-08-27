@@ -44,6 +44,10 @@ const MyChats = ({ fetchAgain }) => {
 
   useEffect(() => {
     const fetchChats = async () => {
+      if (!user || !user.data || !user.data.token) {
+        console.log("User not logged in or token missing");
+        return;
+      }
       try {
         const config = {
           headers: {
