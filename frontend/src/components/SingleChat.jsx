@@ -49,7 +49,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const fetchMessages = useCallback( async () => {
     while (!user || !user.data || !user.data.token) {
-      await new Promise((resolve) => setTimeout(resolve, 50)); // Polling with a small delay
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Polling with a small delay
     }
     
 
