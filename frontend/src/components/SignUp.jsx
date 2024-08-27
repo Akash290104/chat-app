@@ -11,43 +11,56 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  let [show1, setShow1] = useState(false);
+  // State for error messages
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const toggleVisibility1 = () => {
-    setShow1(!show1);
-  };
+  const [show1, setShow1] = useState(false);
+  const toggleVisibility1 = () => setShow1(!show1);
 
-  let [show2, setShow2] = useState(false);
-
-  const toggleVisibility2 = () => {
-    setShow2(!show2);
-  };
+  const [show2, setShow2] = useState(false);
+  const toggleVisibility2 = () => setShow2(!show2);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Reset errors
+    setErrors({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+
+    let hasError = false;
+
     if (!name.current.value) {
-      alert("Name is mandatory");
-      return;
+      setErrors(prevErrors => ({ ...prevErrors, name: "Name is mandatory" }));
+      hasError = true;
     }
     if (!email.current.value) {
-      alert("Email is mandatory");
-      return;
+      setErrors(prevErrors => ({ ...prevErrors, email: "Email is mandatory" }));
+      hasError = true;
     }
-
     if (!password.current.value) {
-      alert("Password is mandatory");
-      return;
+      setErrors(prevErrors => ({ ...prevErrors, password: "Password is mandatory" }));
+      hasError = true;
     }
-
     if (!confirmPassword.current.value) {
-      alert("Confirm password");
-      return;
+      setErrors(prevErrors => ({ ...prevErrors, confirmPassword: "Confirm password" }));
+      hasError = true;
+    }
+    if (password.current.value !== confirmPassword.current.value) {
+      setErrors(prevErrors => ({ ...prevErrors, confirmPassword: "Confirmed password must be the same as Password" }));
+      hasError = true;
     }
 
-    if (password.current.value !== confirmPassword.current.value) {
-      alert("Confirmed password must be same as Password");
-      return;
+    if (hasError) {
+      return; // Stop form submission if there are validation errors
     }
 
     const formData = new FormData();
@@ -70,6 +83,7 @@ const SignUp = () => {
       localStorage.setItem("userInfo", JSON.stringify(response));
       navigate("/chats");
 
+      // Clear form fields
       name.current.value = "";
       email.current.value = "";
       password.current.value = "";
@@ -88,7 +102,7 @@ const SignUp = () => {
         alert("Error while registering user");
       }
 
-      console.log("Error while fetching user details");
+      console.log("Error while fetching user details",error);
     }
   };
 
@@ -105,6 +119,7 @@ const SignUp = () => {
             placeholder="Enter your name"
             ref={name}
           />
+          {errors.name && <div className="text-danger">{errors.name}</div>}
         </div>
         <div className="form-group mt-2 mb-2">
           <label htmlFor="email">Email address</label>
@@ -115,6 +130,7 @@ const SignUp = () => {
             placeholder="Enter your email"
             ref={email}
           />
+          {errors.email && <div className="text-danger">{errors.email}</div>}
         </div>
         <div className="form-group mt-2 mb-2">
           <label htmlFor="password">Password</label>
@@ -126,24 +142,27 @@ const SignUp = () => {
               placeholder="Enter your password"
               ref={password}
             />
-            <button onClick={toggleVisibility1}>
+            <button type="button" onClick={toggleVisibility1}>
               {show1 ? "Hide" : "Show"}
             </button>
           </div>
+          {errors.password && <div className="text-danger">{errors.password}</div>}
         </div>
         <div className="form-group mt-2 mb-2">
-          <label htmlFor="password">Confirm Password</label>
+          <label htmlFor="confirmPassword">Confirm Password</label>
           <div className="input-group">
             <input
               type={show2 ? "text" : "password"}
               className="form-control"
-              placeholder="Enter your password"
+              id="confirmPassword"
+              placeholder="Confirm your password"
               ref={confirmPassword}
             />
-            <button onClick={toggleVisibility2}>
+            <button type="button" onClick={toggleVisibility2}>
               {show2 ? "Hide" : "Show"}
             </button>
           </div>
+          {errors.confirmPassword && <div className="text-danger">{errors.confirmPassword}</div>}
         </div>
         <div className="form-group mt-2 mb-2">
           <label htmlFor="picture">Choose display picture</label>
