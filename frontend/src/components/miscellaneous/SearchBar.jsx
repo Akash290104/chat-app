@@ -3,32 +3,24 @@ import styles from "../../styling/SearchBar.module.scss";
 import { ChatState } from "../../context/chatProvider";
 import { useState } from "react";
 import axios from "axios";
-import { useCallback } from "react";
 import { debounce } from "../../config/debounce";
 
 export const ChatLoading = () => {
   return (
-    <>
-      {/* <p className="placeholder-wave">
-          <span className="placeholder col-12"></span>
-          <span className="placeholder col-12"></span>
-          <span className="placeholder col-12"></span>
-        </p> */}
-      <button
-        className="btn btn-primary "
-        style={{ fontSize: "1.3rem" }}
-        type="button"
-        disabled
-      >
-        <span
-          className="spinner-border spinner-border-sm"
-          role="status"
-          style={{ height: "25px", width: "25px", marginRight: "5px" }}
-          aria-hidden="true"
-        ></span>
-        Loading...
-      </button>
-    </>
+    <button
+      className="btn btn-primary"
+      style={{ fontSize: "1.3rem" }}
+      type="button"
+      disabled
+    >
+      <span
+        className="spinner-border spinner-border-sm"
+        role="status"
+        style={{ height: "25px", width: "25px", marginRight: "5px" }}
+        aria-hidden="true"
+      ></span>
+      Loading...
+    </button>
   );
 };
 
@@ -53,41 +45,37 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
   const [loadingChat, setLoadingChat] = useState(false);
   const [noUsers, setNoUsers] = useState(false);
 
-  const { user,  chats, setChats } = ChatState();
+  const { user, chats, setChats } = ChatState();
 
-  const handleSearch = useCallback(
-    debounce(async (search) => {
-      if (!search) {
-        setSearchResult([]);
-        setNoUsers(false);
-        return;
-      }
+  const handleSearch = debounce(async (search) => {
+    if (!search) {
+      setSearchResult([]);
+      setNoUsers(false);
+      return;
+    }
 
-      try {
-        setLoading(true);
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.data.token}`,
-          },
-        };
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.data.token}`,
+        },
+      };
 
-        const response = await axios.get(
-          `https://chat-app-3-jpcn.onrender.com/api/user?search=${search}`,
-          config
-        );
+      const response = await axios.get(
+        `https://chat-app-3-jpcn.onrender.com/api/user?search=${search}`,
+        config
+      );
 
-        setLoading(false);
-        setNoUsers(true);
-
-        setSearchResult(response.data.users);
-      } catch (error) {
-        setLoading(false);
-        alert("Error fetching searched users");
-        console.log("Error fetching searched users", error);
-      }
-    }, 500),
-    [user.data.token]
-  );
+      setLoading(false);
+      setNoUsers(true);
+      setSearchResult(response.data.users);
+    } catch (error) {
+      setLoading(false);
+      alert("Error fetching searched users");
+      console.log("Error fetching searched users", error);
+    }
+  }, 500);
 
   const fetchChats = async () => {
     try {
@@ -128,32 +116,10 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
       );
 
       console.log("Response of accessChat ", response);
-
-      //  if(!chats){
-      //   setChats([response.data])
-      //  }
-      //  else {
-      //   if(!chats.find((c) => c._id === response.data._id))
-      //     setChats([response.data, ...chats])
-      // }
-
-      //We use functional form of setChats
-      // console.log("Previous chats", chats);
-
-      // setChats((prevChats) => {
-      //   const updatedChats = prevChats || []
-
-      //   if(!updatedChats.find((c) => c._id === response.data._id)){
-      //     return [response.data.fullChat, ...updatedChats]
-      //   }
-      //   return updatedChats
-      // })
-
-      // console.log("Update chats are", chats);
-
       setLoadingChat(false);
     } catch (error) {
       console.log("Error fetching chats of searched users", error);
+      setLoadingChat(false);
     }
   };
 
@@ -163,13 +129,10 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
     setNoUsers(false);
   };
 
-  const handleInputChange = useCallback(
-    (e) => {
-      const value = e.target.value;
-      handleSearch(value); // Call the debounced search function
-    },
-    [handleSearch] // Dependency for handleInputChange
-  );
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    handleSearch(value); // Call the debounced search function
+  };
 
   return (
     <div
@@ -197,9 +160,6 @@ const SearchBar = ({ isVisible, setIsVisible }) => {
             placeholder="Search"
           />
         </div>
-        {/* <div className={styles.go}>
-          <button onClick={handleSearch}>Go</button>
-        </div> */}
       </div>
       <div className={styles.users}>
         {loading ? (

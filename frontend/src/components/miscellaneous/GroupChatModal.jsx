@@ -5,7 +5,6 @@ import axios from "axios";
 import { User } from "./SearchBar";
 import { ChatLoading } from "./SearchBar";
 import { debounce } from "../../config/debounce";
-import { useCallback } from "react";
 import UserBadge from "./UserBadge";
 
 const GroupChatModal = ({ children, hideGroupChatModal }) => {
@@ -29,77 +28,39 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
     });
   };
 
-  // const handleSearch = async (query) => {
-  //   if (!query) {
-  //     setSearchResult([]);
-  //     return;
-  //   }
+  const handleSearch = debounce(async (query) => {
+    if (!query) {
+      setNoUsers(false);
+      setSearchResult([]);
+      return;
+    }
 
-  //   try {
-  //     setLoading(true);
+    setLoading(true);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.data.token}`,
+      },
+    };
 
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${user.data.token}`,
-  //       },
-  //     };
+    try {
+      const response = await axios.get(
+        `https://chat-app-3-jpcn.onrender.com/api/user?search=${query}`,
+        config
+      );
+      setLoading(false);
+      setNoUsers(true);
+      setSearchResult(response.data.users);
+    } catch (error) {
+      setLoading(false);
+      alert("Error finding searched users for creating Group Chat");
+      console.log(error);
+    }
+  }, 500);
 
-  //     const response = await axios.get(
-  //       `https://chat-app-3-jpcn.onrender.com/api/user?search=${query}`,
-  //       config
-  //     );
-
-  //     setLoading(false);
-  //     setNoUsers(true);
-
-  //     setSearchResult(response.data.users);
-  //   } catch (error) {
-  //     console.log(
-  //       "Error finding serached users for creating Group Chat",
-  //       error
-  //     );
-  //   }
-  // };
-
-  const handleSearch = useCallback(
-    debounce(async (query) => {
-      if (!query) {
-        setNoUsers(false);
-        setSearchResult([]);
-        return;
-      }
-
-      setLoading(true);
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.data.token}`,
-        },
-      };
-
-      try {
-        const response = await axios.get(
-          `https://chat-app-3-jpcn.onrender.com/api/user?search=${query}`,
-          config
-        );
-        setLoading(false);
-        setNoUsers(true);
-        setSearchResult(response.data.users);
-      } catch (error) {
-        setLoading(false);
-        alert("Error finding searched users for creating Group Chat");
-        console.log(error);
-      }
-    }, 500),
-    [user.data.token]
-  );
-
-  const handleInputChange = useCallback(
-    (e) => {
-      const value = e.target.value;
-      handleSearch(value); // Call the debounced search function
-    },
-    [handleSearch] // Dependency for handleInputChange
-  );
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    handleSearch(value); // Call the debounced search function
+  };
 
   const handleDelete = (user) => {
     console.log("User removed from selected users");
@@ -107,7 +68,7 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
     console.log(selectedUsers);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     if (!groupChatName) {
       alert("Enter Group chat name");
       return;
@@ -178,7 +139,6 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
             placeholder="Add Users"
             onChange={handleInputChange}
           />
-          {/* <button onClick={() => handleSearch(search)}>Search</button> */}
         </div>
         <div className={styles.badge}>
           {selectedUsers.length > 0
@@ -209,13 +169,7 @@ const GroupChatModal = ({ children, hideGroupChatModal }) => {
           )}
         </div>
         <div className={styles.createChat}>
-          <button
-            onClick={() => {
-              handleSubmit();
-            }}
-          >
-            Create Chat
-          </button>
+          <button onClick={handleSubmit}>Create Chat</button>
         </div>
       </div>
     </div>
