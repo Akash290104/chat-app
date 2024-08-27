@@ -94,8 +94,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   // }, [selectedChat]);
   }, [selectedChat, fetchMessages]);
 
-  console.log("Notification ", notification);
-  console.log(JSON.parse(localStorage.getItem("notifications")));
+  // console.log("Notification ", notification);
+  // console.log(JSON.parse(localStorage.getItem("notifications")));
 
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -120,7 +120,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         if (
           !notification.some((notif) => notif._id === newMessageReceived._id)
         ) {
-          console.log("Notification incoming");
+          // console.log("Notification incoming");
 
           // setNotification((prevNotification) => {
           //   const existingNotificationIndex = prevNotification.findIndex(

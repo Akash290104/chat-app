@@ -1,15 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import Chats from "./data/chatsData.js";
 import connectDB from "./db/connect.js";
 import userRoutes from "./routes/userRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import { Server } from "socket.io";
-
-// const userRoutes = router1
-// const chatRoutes = router2
 
 dotenv.config();
 
@@ -18,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 let server;
 
 connectDB()
@@ -67,10 +63,11 @@ connectDB()
         });
       });
 
-      socket.off("setup", () => {
+      socket.on("disconnect", () => {
         console.log("User Disconnected");
-        socket.leave(userData._id);
+        // Handle user disconnection here
       });
+
       // Add your socket event listeners here
     });
   })
@@ -84,7 +81,7 @@ app.get("/", async (req, res) => {
     return res.status(200).json({ message: "Api is running successfully" });
   } catch (error) {
     console.log("Api run failure", error);
-    return res.status(401).json(error.message);
+    return res.status(500).json({ message: error.message });
   }
 });
 
@@ -92,27 +89,27 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
+// Uncomment these if needed
 // app.get("/chats", async (req, res) => {
 //   try {
 //     console.log("Chats sent successfully");
 //     return res.status(200).json({ message: "Chats sent successfully", Chats });
 //   } catch (error) {
 //     console.log("Chats could not be sent", error);
-//     return res.status(401).json(error.message);
+//     return res.status(500).json({ message: error.message });
 //   }
 // });
 
 // app.get("/api/chats/:id", async (req, res) => {
-//   //req.params.id gives the id of a particular chat
 //   try {
 //     const singleChat = Chats.find((c) => c._id === req.params.id);
 //     if (!singleChat) {
 //       console.log("Chat not found");
-//       return res.status(501).json({ message: "Chat not found" });
+//       return res.status(404).json({ message: "Chat not found" });
 //     }
-//     return res.status(201).json({ message: "Specific chat sent", singleChat });
+//     return res.status(200).json({ message: "Specific chat sent", singleChat });
 //   } catch (error) {
 //     console.log("Specific chat could not be sent");
-//     return res.status(401).json(error.message);
+//     return res.status(500).json({ message: error.message });
 //   }
 // });
