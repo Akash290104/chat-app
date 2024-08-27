@@ -52,7 +52,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       console.log("User not logged in or token missing");
       return;
     }
-    
+
     if (!selectedChat) {
       return;
     }
@@ -91,7 +91,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         alert("Error fetching messages");
       }
     }
-  }, [selectedChat, user.data.token])
+  }, [selectedChat, user])
 
   useEffect(() => {
     fetchMessages();
