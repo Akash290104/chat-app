@@ -9,18 +9,10 @@
       }
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c2497b35df13b091742a9a45dde9a2b40d052e02
