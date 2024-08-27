@@ -101,8 +101,7 @@ const SignUp = () => {
       } else {
         alert("Error while registering user");
       }
-
-      console.log("Error while fetching user details",error);
+      console.log("Error while registering fetching user",error);
     }
   };
 
