@@ -7,8 +7,7 @@ const Login = () => {
   const passwordElement = useRef();
   const navigate = useNavigate();
 
-  let email = "";
-  let password = "";
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
