@@ -29,7 +29,7 @@ const Login = () => {
       const response = await axios.post(
         "https://chat-app-3-jpcn.onrender.com/api/user/login",
         { email, password }
-      );
+      )
   
       localStorage.setItem("userInfo", JSON.stringify(response.data));
       navigate("/chats");
