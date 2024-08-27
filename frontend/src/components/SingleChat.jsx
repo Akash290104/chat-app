@@ -48,6 +48,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const fetchMessages = useCallback( async () => {
+    if (!user || !user.data || !user.data.token) {
+      console.log("User not logged in or token missing");
+      return;
+    }
+    
     if (!selectedChat) {
       return;
     }
