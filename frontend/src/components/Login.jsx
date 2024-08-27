@@ -12,47 +12,46 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     if (!emailElement.current.value) {
       alert("Email is mandatory");
       return;
     }
-
+  
     if (!passwordElement.current.value) {
       alert("Password is mandatory");
       return;
     }
-
-    email = emailElement.current.value;
-    password = passwordElement.current.value;
-
+  
+    const email = emailElement.current.value;
+    const password = passwordElement.current.value;
+  
     try {
       const response = await axios.post(
         "https://chat-app-3-jpcn.onrender.com/api/user/login",
         { email, password }
       );
-
-      localStorage.setItem("userInfo", JSON.stringify(response));
+  
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
       navigate("/chats");
-
+  
       emailElement.current.value = "";
       passwordElement.current.value = "";
-
+  
       alert("User logged in successfully");
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        alert(error.response.data.message); // Show the error message from the server
+      if (error.response) {
+        console.error("Error response:", error.response);
+        alert(error.response.data.message || "Error while logging in");
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+        alert("No response received from server");
       } else {
-        alert("Error while registering user");
+        console.error("Error message:", error.message);
+        alert("Error while logging in");
       }
-
-      console.log("Error while fetching user details");
     }
-  };
+  };  
 
   const handleGuest = async () => {
     emailElement.current.value = "guest123@gmail.com";
