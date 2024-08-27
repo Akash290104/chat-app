@@ -8,7 +8,7 @@ const DB = process.env.URL
 
 const connectDB = async() =>{
   try {
-    await mongoose.connect(`mongodb+srv://${DB}/chatApp`)
+    await mongoose.connect(`mongodb+srv://${DB}`)
     console.log("MongoDB Connected!!!");
   }
   catch (error) {
