@@ -45,9 +45,9 @@ const MyChats = ({ fetchAgain }) => {
   useEffect(() => {
     const fetchChats = async () => {
       while (!user || !user.data || !user.data.token) {
-        await new Promise((resolve) => setTimeout(resolve, 50)); // Polling with a small delay
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Polling with a small delay
       }
-      
+
       if (!user || !user.data || !user.data.token) {
         console.log("User not logged in or token missing");
         return;
