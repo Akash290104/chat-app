@@ -28,7 +28,7 @@ connectDB()
     const io = new Server(server, {
       pingTimeout: 60000,
       cors: {
-        origin: "https://talk-a-tivespheree-bqnrxckee-akashs-projects-6f1d4f45.vercel.app/", // Ensure this matches your frontend host
+        origin: "https://talk-a-tive-zonee.vercel.app/", // Ensure this matches your frontend host
       },
     });
 
