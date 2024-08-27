@@ -69,7 +69,7 @@ const MyChats = ({ fetchAgain }) => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
   // }, [fetchAgain,]);
-  }, [fetchAgain, chats, setChats, user, user.data.token]);
+  }, [fetchAgain, chats, setChats, user]);
 
   const [groupChatModal, setGroupChatModal] = useState(false);
 
