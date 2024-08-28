@@ -11,13 +11,24 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
-// {
-//   origin: "https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app/", // No trailing slash
-//   methods: ["GET", "POST", "PUT", "DELETE"],
-//   allowedHeaders: ["Access-Control-Allow-Origin"],
-//   credentials: true,
-// }
+const allowedOrigins = [
+  'https://talk-a-tivezoneee-7xdce0x7y-akashs-projects-6f1d4f45.vercel.app',
+  'https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -34,7 +45,9 @@ connectDB()
     const io = new Server(server, {
       pingTimeout: 60000,
       cors: {
-        origin: "https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app/", // Ensure this matches your frontend host
+        origin: "https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app", // Ensure this matches your frontend host
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
       },
     });
 
@@ -49,7 +62,7 @@ connectDB()
 
       socket.on("join chat", (room) => {
         socket.join(room);
-        console.log("User joined room" + room);
+        console.log("User joined room " + room);
       });
 
       socket.on("typing", (room) => socket.in(room).emit("typing"));
@@ -79,8 +92,10 @@ connectDB()
   })
   .catch((error) => {
     console.log("Could not connect to MongoDB", error);
+    process.exit(1); // Exit the process if DB connection fails
   });
 
+// Base API route
 app.get("/", async (req, res) => {
   try {
     console.log("Api is running successfully");
@@ -91,31 +106,7 @@ app.get("/", async (req, res) => {
   }
 });
 
+// Mount the routes
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
-
-// Uncomment these if needed
-// app.get("/chats", async (req, res) => {
-//   try {
-//     console.log("Chats sent successfully");
-//     return res.status(200).json({ message: "Chats sent successfully", Chats });
-//   } catch (error) {
-//     console.log("Chats could not be sent", error);
-//     return res.status(500).json({ message: error.message });
-//   }
-// });
-
-// app.get("/api/chats/:id", async (req, res) => {
-//   try {
-//     const singleChat = Chats.find((c) => c._id === req.params.id);
-//     if (!singleChat) {
-//       console.log("Chat not found");
-//       return res.status(404).json({ message: "Chat not found" });
-//     }
-//     return res.status(200).json({ message: "Specific chat sent", singleChat });
-//   } catch (error) {
-//     console.log("Specific chat could not be sent");
-//     return res.status(500).json({ message: error.message });
-//   }
-// });
