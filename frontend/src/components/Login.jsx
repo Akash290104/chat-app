@@ -13,12 +13,10 @@ const Login = () => {
     e.preventDefault();
   
     if (!emailElement.current.value) {
-      alert("Email is mandatory");
       return;
     }
   
     if (!passwordElement.current.value) {
-      alert("Password is mandatory");
       return;
     }
   
