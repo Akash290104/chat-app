@@ -11,12 +11,13 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: "https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app/", // No trailing slash
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Access-Control-Allow-Origin"],
-  credentials: true,
-}));
+app.use(cors());
+// {
+//   origin: "https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app/", // No trailing slash
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Access-Control-Allow-Origin"],
+//   credentials: true,
+// }
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
