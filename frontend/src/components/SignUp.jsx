@@ -108,7 +108,7 @@ const SignUp = () => {
   return (
     <div>
       <h3 className="text-center">Sign Up</h3>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group mt-2 mb-2">
           <label htmlFor="name">Name</label>
           <input
@@ -175,7 +175,6 @@ const SignUp = () => {
         </div>
         <button
           type="submit"
-          onClick={handleSubmit}
           className="btn btn-primary mt-3 w-100"
         >
           Sign Up

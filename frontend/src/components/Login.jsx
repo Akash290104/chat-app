@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +37,7 @@ const Login = () => {
       emailElement.current.value = "";
       passwordElement.current.value = "";
   
-      alert("User logged in successfully");
+      // alert("User logged in successfully");
     } catch (error) {
       if (error.response) {
         console.error("Error response:", error.response);
@@ -60,7 +60,7 @@ const Login = () => {
   return (
     <div>
       <h3 className="text-center">Login</h3>
-      <form>
+      <form onSubmit={handleLogin}>
         <div className="form-group">
           <label htmlFor="email">Email address</label>
           <input
@@ -83,7 +83,6 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          onClick={handleLogin}
           className="btn btn-primary w-100 mt-3"
         >
           Log In
@@ -95,7 +94,9 @@ const Login = () => {
         >
           Get guest user credentials
         </button>
+      
       </form>
+     
     </div>
   );
 };
