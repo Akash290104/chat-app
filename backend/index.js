@@ -11,9 +11,11 @@ dotenv.config();
 
 const app = express();
 
+// List of allowed origins
 const allowedOrigins = [
-  'https://talk-a-tivezoneee-7xdce0x7y-akashs-projects-6f1d4f45.vercel.app',
-  'https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app'
+  'https://talk-a-tivespherezone-akashs-projects-6f1d4f45.vercel.app',
+  'https://talk-a-tivespherezone-git-main-akashs-projects-6f1d4f45.vercel.app',
+  'https://talk-a-tivespherezone-17asfw5d6-akashs-projects-6f1d4f45.vercel.app'
 ];
 
 app.use(cors({
@@ -26,7 +28,6 @@ app.use(cors({
   },
   credentials: true
 }));
-
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -45,7 +46,7 @@ connectDB()
     const io = new Server(server, {
       pingTimeout: 60000,
       cors: {
-        origin: "https://talk-a-tivezoneee-78p3xt94d-akashs-projects-6f1d4f45.vercel.app", // Ensure this matches your frontend host
+        origin: allowedOrigins, // Ensure this matches your frontend host
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
       },
