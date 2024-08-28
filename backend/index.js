@@ -13,7 +13,7 @@ const app = express();
 
 // List of allowed origins
 const allowedOrigins = [
-  'https://talk-a-tivespherezone-21ao7d8bn-akashs-projects-6f1d4f45.vercel.app/'
+  'https://talk-a-tivespherezone-akashs-projects-6f1d4f45.vercel.app/'
 ];
 
 app.use(cors({
